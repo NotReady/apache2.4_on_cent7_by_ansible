@@ -1,0 +1,7 @@
+---
+# build and install apr-util-devel
+- name: apr-utilのビルドに必要なパッケージのインストール
+  become: yes
+  yum:
+    name: apr-util-devel 
+    state: present

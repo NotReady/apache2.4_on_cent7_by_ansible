@@ -1,0 +1,9 @@
+---
+# vars file for common
+rpmbuild:
+  install_modules:
+    - rpmdevtools
+    - yum-utils
+    - autoconf
+    - libtool
+    - doxygen

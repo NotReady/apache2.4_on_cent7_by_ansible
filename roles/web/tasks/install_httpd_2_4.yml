@@ -1,0 +1,52 @@
+---
+# build and install httpd_2.4
+- name: httpdソースファイルのビルドに必要なパッケージのインストール
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - zlib-devel
+    - libselinux-devel
+    - pcre-devel
+    - openssl-devel
+    - mailcap
+    - lua-devel
+    - libxml2-devel 
+
+- name: httpdのソースファイルをダウンロード
+  become: yes
+  get_url:
+    url: "{{ apache_2_4.url }}"
+    dest: "{{ apache_2_4.work_dir }}"
+
+- name: httpdのパッケージ化
+  become: yes
+#  shell: "rpmbuild -ta --clean {{ apache_2_4.src_filename }}"
+  shell: "rpmbuild -tb --clean {{ apache_2_4.src_filename }}"
+  args:
+    chdir: "{{ apache_2_4.work_dir }}"
+    creates: "{{ apache_2_4.rpm_directory}}/{{ apache_2_4.rpm_filenames.0 }}"
+
+- name: httpdパッケージ配置用ディレクトリ
+  become: yes
+  file:
+    path: "{{ apache_2_4.rpm_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: httpdのパッケージ配置
+  become: yes
+  shell: "find {{ apache_2_4.rpmbuild_dir}} -name '*.rpm' | xargs -i mv {} ."
+  args:
+    chdir: "{{ apache_2_4.rpm_directory }}"
+    creates: "{{ apache_2_4.rpm_directory }}/{{ apache_2_4.rpm_filenames.0 }}"
+
+- name: httpdのインストール
+  become: yes
+  yum:
+    name: "{{ apache_2_4.rpm_directory }}/{{ item }}"
+    state: present
+  with_items: "{{ apache_2_4.rpm_filenames }}"

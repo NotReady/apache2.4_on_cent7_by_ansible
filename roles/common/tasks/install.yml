@@ -1,0 +1,11 @@
+---
+- name: install modules
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: installed 
+  with_items: "{{ rpmbuild.install_modules }}"
+
+- name: setup rpmbuild
+  become: yes
+  command: rpmdev-setuptree
