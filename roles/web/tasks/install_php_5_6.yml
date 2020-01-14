@@ -1,0 +1,42 @@
+---
+# build and install php_5.6
+- name: remiレポジトリのインストール
+  become: yes
+  yum:
+    name: "{{ php_5_6.repo_url }}" 
+    state: present
+
+- name: phpのインストール
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+    enablerepo: "{{ php_5_6.enable_repo }}"
+  with_items: "{{ php_5_6.install_packages }}"
+
+- name: httpd用php設定ファイルの配置
+  become: yes
+  shell: "mv {{ php_5_6.httpd_config_org_path }} {{ php_5_6.httpd_config_path }}"
+  args:
+    creates: "{{ php_5_6.httpd_config_path }}"
+
+- name: php設定ファイル編集
+  become: yes
+  lineinfile:
+    dest: "{{ php_5_6.config_path }}"
+    backrefs: yes
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items: "{{ php_5_6.config_changes }}"
+
+- name: httpd用php追加読み込み設定追記
+  lineinfile:
+    dest: "{{ apache_2_4.conf_file }}"
+    line: "{{ php_5_6.httpd_config_include_php }}"
+  notify: restart httpd
+
+- name: php用sampleファイル配置
+  become: yes
+  shell: "echo '<?php phpinfo(); ?>' > /var/www/html/info.php"
+  args:
+    creates: "/var/www/html/info.php" 

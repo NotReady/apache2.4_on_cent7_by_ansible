@@ -60,3 +60,44 @@ distcache:
     - distcache-devel-1.4.5-23.x86_64.rpm
   # RPMファイル配置ディレクトリ
   rpm_directory: /usr/local/src/distcache
+
+php_5_6:
+  # php提供元レポジトリURL
+  repo_url: http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+  # 利用レポジトリ
+  enable_repo: remi-php56
+  # インストール対象パッケージ
+  install_packages:
+    - php
+    - php-cli
+    - php-common
+    - php-dbg
+    - php-devel
+    - php-gd
+    - php-mbstring
+    - php-mcrypt
+    - php-mysqlnd
+    - php-opcache
+    - php-xml
+  # httpd用php設定ファイル(原本)
+  httpd_config_org_path: /etc/httpd/conf.d/php.conf
+  # httpd用php設定ファイル
+  httpd_config_path: /etc/httpd/conf/extra/httpd-php.conf
+  # httpd用php追加読み込み文言
+  httpd_config_include_php: "Include conf/extra/httpd-php.conf"
+  # php設定ファイル
+  config_path: /etc/php.ini
+  # php設定ファイル変更箇所
+  config_changes:
+    - regexp: "^;(date.timezone) =.*"
+      line: '\1 = Asia/Tokyo'
+    - regexp: "^;(mbstring.language =.*"
+      line: '\1 = Japanese'
+    - regexp: "^;(mbstring.internal_encoding) =.*"
+      line: '\1 = UTF-8'
+    - regexp: "^;(mbstring.http_input) =.*"
+      line: '\1 = pass'
+    - regexp: "^;(mbstring.http_output) =.*"
+      line: '\1 = pass'
+    - regexp: "^;(mbstring.encoding_translation) =.*"
+      line: '\1 = off'

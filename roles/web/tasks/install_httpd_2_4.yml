@@ -50,3 +50,24 @@
     name: "{{ apache_2_4.rpm_directory }}/{{ item }}"
     state: present
   with_items: "{{ apache_2_4.rpm_filenames }}"
+
+- name: 起動ユーザ・グループ設定
+  become: true
+  lineinfile:
+    dest: "{{ apache_2_4.conf_file }}"
+    backrefs: yes
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - regexp: "^User.*"
+      line: "User {{ apache_2_4.user_name }}"
+    - regexp: "^Group.*"
+      line: "Group {{ apache_2_4.group_name }}"
+  notify: restart httpd
+
+- name: httpdのサービス起動・自動起動設定
+  become: yes
+  service:
+    name: httpd
+    state: started
+    enabled: yes
