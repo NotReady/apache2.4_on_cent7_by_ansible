@@ -1,3 +1,4 @@
 ---
 # tasks file for common
+- include_tasks: roles/common/tasks/setos.yml
 - include_tasks: roles/common/tasks/install.yml
