@@ -1,16 +1,11 @@
 ---
 # build and install php_5.6
-- name: remiレポジトリのインストール
-  become: yes
-  yum:
-    name: "{{ php_5_6.repo_url }}" 
-    state: present
-
 - name: phpのインストール
   become: yes
   yum:
     name: "{{ item }}"
     state: present
+    disablerepo: "*"
     enablerepo: "{{ php_5_6.enable_repo }}"
   with_items: "{{ php_5_6.install_packages }}"
 

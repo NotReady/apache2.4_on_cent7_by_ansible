@@ -3,8 +3,9 @@
   hosts: all
   remote_user: ansible
   roles:
-#    - { role: common, tags, common }
-     - common
+    - role: common
+      tags: common
+#     - common
 
 - name: install and configure the web
   hosts: webservers 

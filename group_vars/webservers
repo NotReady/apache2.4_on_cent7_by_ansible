@@ -1,11 +1,13 @@
 ---
 # webservers Variables
 
-apache_2_4:
+httpd_2_4:
   # 起動ユーザ
   user_name: apache
   # 起動グループ
   group_name: apache
+  # インストールリポジトリ
+  repo_url: https://centos7.iuscommunity.org/ius-release.rpm 
   # ソースファイル作業ディレクトリ
   work_dir: /usr/local/src
   # RPMファイルビルド先ディレクトリ
@@ -65,7 +67,7 @@ php_5_6:
   # php提供元レポジトリURL
   repo_url: http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
   # 利用レポジトリ
-  enable_repo: remi-php56
+  enable_repo: remi-php56,remi-safe,epel,base
   # インストール対象パッケージ
   install_packages:
     - php

@@ -1,11 +1,16 @@
 ---
-- name: install modules
+- name: YUMレポジトリをインストールします 
   become: yes
   yum:
     name: "{{ item }}"
-    state: installed 
-  with_items: "{{ rpmbuild.install_modules }}"
+    state: present 
+  with_items:
+    - epel-release
+    - "{{ php_5_6.repo_url }}" 
+    - "{{ httpd_2_4.repo_url }}"
+    - tree
+    - yum-utils
 
-- name: setup rpmbuild
+- name: 追加レポジトリをデフォルト無効にします 
   become: yes
-  command: rpmdev-setuptree
+  shell: "yum-config-manager --disable ius epel remi-safe"

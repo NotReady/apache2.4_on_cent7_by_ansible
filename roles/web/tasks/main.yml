@@ -1,7 +1,7 @@
 ---
 # tasks file for web
-- include_tasks: roles/web/tasks/install_apr.yml
-- include_tasks: roles/web/tasks/install_apr_util.yml
-- include_tasks: roles/web/tasks/install_distcache.yml
+# - include_tasks: roles/web/tasks/install_apr.yml
+# - include_tasks: roles/web/tasks/install_apr_util.yml
+# - include_tasks: roles/web/tasks/install_distcache.yml
 - include_tasks: roles/web/tasks/install_httpd_2_4.yml
 - include_tasks: roles/web/tasks/install_php_5_6.yml

@@ -1,71 +1,30 @@
 ---
-# build and install httpd_2.4
-- name: httpdソースファイルのビルドに必要なパッケージのインストール
+# install httpd_2.4
+- name: httpdをインストールをインストールします
   become: yes
   yum:
     name: "{{ item }}"
     state: present
+    disablerepo: "*"
+    enablerepo: "ius,epel,base" 
   with_items:
-    - zlib-devel
-    - libselinux-devel
-    - pcre-devel
-    - openssl-devel
-    - mailcap
-    - lua-devel
-    - libxml2-devel 
+    - httpd24u 
 
-- name: httpdのソースファイルをダウンロード
-  become: yes
-  get_url:
-    url: "{{ apache_2_4.url }}"
-    dest: "{{ apache_2_4.work_dir }}"
-
-- name: httpdのパッケージ化
-  become: yes
-#  shell: "rpmbuild -ta --clean {{ apache_2_4.src_filename }}"
-  shell: "rpmbuild -tb --clean {{ apache_2_4.src_filename }}"
-  args:
-    chdir: "{{ apache_2_4.work_dir }}"
-    creates: "{{ apache_2_4.rpm_directory}}/{{ apache_2_4.rpm_filenames.0 }}"
-
-- name: httpdパッケージ配置用ディレクトリ
-  become: yes
-  file:
-    path: "{{ apache_2_4.rpm_directory }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-
-- name: httpdのパッケージ配置
-  become: yes
-  shell: "find {{ apache_2_4.rpmbuild_dir}} -name '*.rpm' | xargs -i mv {} ."
-  args:
-    chdir: "{{ apache_2_4.rpm_directory }}"
-    creates: "{{ apache_2_4.rpm_directory }}/{{ apache_2_4.rpm_filenames.0 }}"
-
-- name: httpdのインストール
-  become: yes
-  yum:
-    name: "{{ apache_2_4.rpm_directory }}/{{ item }}"
-    state: present
-  with_items: "{{ apache_2_4.rpm_filenames }}"
-
-- name: 起動ユーザ・グループ設定
+- name: httpdの起動ユーザ・グループ設定します
   become: true
   lineinfile:
-    dest: "{{ apache_2_4.conf_file }}"
+    dest: "{{ httpd_2_4.conf_file }}"
     backrefs: yes
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
     - regexp: "^User.*"
-      line: "User {{ apache_2_4.user_name }}"
+      line: "User {{ httpd_2_4.user_name }}"
     - regexp: "^Group.*"
-      line: "Group {{ apache_2_4.group_name }}"
+      line: "Group {{ httpd_2_4.group_name }}"
   notify: restart httpd
 
-- name: httpdのサービス起動・自動起動設定
+- name: httpdのサービス起動と自動起動を設定します
   become: yes
   service:
     name: httpd
