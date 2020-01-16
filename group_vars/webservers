@@ -81,6 +81,8 @@ php_5_6:
     - php-mysqlnd
     - php-opcache
     - php-xml
+    - php-phalcon2
+
   # httpd用php設定ファイル(原本)
   httpd_config_org_path: /etc/httpd/conf.d/php.conf
   # httpd用php設定ファイル
