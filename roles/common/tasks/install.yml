@@ -19,3 +19,9 @@
 - name: 追加レポジトリをデフォルト無効にします 
   become: yes
   shell: "yum-config-manager --disable ius epel remi-safe"
+
+- name: memcachedをインストールします
+  become: yes
+  yum:
+    name: memcached
+    state: present
