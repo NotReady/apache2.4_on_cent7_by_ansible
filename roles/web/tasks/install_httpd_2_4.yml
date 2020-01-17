@@ -10,6 +10,15 @@
   with_items:
     - httpd24u 
 
+- name: confのインクルードディレクトリを作成します
+  become: yes
+  file:
+    path: "{{ httpd_2_4.extra_conf_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: httpdの起動ユーザ・グループ設定します
   become: true
   lineinfile:

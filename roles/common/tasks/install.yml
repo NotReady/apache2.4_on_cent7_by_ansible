@@ -1,4 +1,9 @@
 ---
+- name: timezoneを設定します
+  become: yes
+  timezone:
+    name: Asia/Tokyo
+
 - name: YUMレポジトリをインストールします 
   become: yes
   yum:
@@ -6,7 +11,7 @@
     state: present 
   with_items:
     - epel-release
-    - "{{ php_5_6.repo_url }}" 
+    - "{{ php_5_5.repo_url }}" 
     - "{{ httpd_2_4.repo_url }}"
     - tree
     - yum-utils

@@ -12,4 +12,5 @@
   remote_user: ansible
   roles:
 #    - { role: web, tags: web}
-     - web
+    - role: web
+      tags: web
