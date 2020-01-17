@@ -98,7 +98,7 @@ php_5_5:
   config_changes:
     - regexp: "^;(date.timezone) =.*"
       line: '\1 = Asia/Tokyo'
-    - regexp: "^;(mbstring.language =.*"
+    - regexp: "^;(mbstring.language) =.*"
       line: '\1 = Japanese'
     - regexp: "^;(mbstring.internal_encoding) =.*"
       line: '\1 = UTF-8'
