@@ -25,8 +25,9 @@
   with_items: "{{ php_5_5.config_changes }}"
 
 - name: httpd用php追加読み込み設定追記
+  become: yes
   lineinfile:
-    dest: "{{ apache_2_4.conf_file }}"
+    dest: "{{ httpd_2_4.conf_file }}"
     line: "{{ php_5_5.httpd_config_include_php }}"
   notify: restart httpd
 
