@@ -1,0 +1,3 @@
+---
+# tasks file for db
+- include_tasks: roles/db/tasks/install_mysqld_5_7.yml

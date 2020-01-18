@@ -5,12 +5,17 @@
   roles:
     - role: common
       tags: common
-#     - common
 
 - name: install and configure the web
   hosts: webservers 
   remote_user: ansible
   roles:
-#    - { role: web, tags: web}
     - role: web
       tags: web
+
+- name: install and configure the web
+  hosts: webservers
+  remote_user: ansible
+  roles:
+    - role: db 
+      tags: db 

@@ -1,0 +1,96 @@
+---
+- name: install mysql repository
+  become: yes
+  yum:
+    name: "{{ mysqld_5_7.repo_url }}"
+    state: present
+    validate_certs: yes
+
+- name: install mysqld packages
+  become: yes
+  yum:
+    name: "{{ item }}"
+    enablerepo: "{{ mysqld_5_7.enable_repo }}" 
+    state: present 
+  with_items: "{{ mysqld_5_7.install_package }}"
+ 
+- name: running and enabled mysqld
+  become: yes
+  service:
+    name: mysqld
+    state: started
+    enabled: yes 
+
+- name: check .my.cnf exists
+  become: yes
+  stat:
+    path: /root/.my.cnf
+  register: mycnf_file
+
+- name: get temporary password
+  become: yes
+  shell: |
+    cat /var/log/mysqld.log | grep "temporary password" | awk '{print $11}'
+  register: mysql_default_password
+  when: not mycnf_file.stat.exists
+
+- name: deploy init .my.cnf
+  become: yes
+  template:
+    src: root.my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  when: not mycnf_file.stat.exists
+
+- name: change password validation to the easy way
+  shell: |
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_length=4;"
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
+  when: not mycnf_file.stat.exists
+
+- name: change root user password
+  shell: |
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysqld_5_7.mysql_root_password}}';"
+  when: not mycnf_file.stat.exists
+
+- name: deploy changed .my.cnf
+  become: yes
+  template:
+    src: my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: deploy changed.my.cnf
+  become: yes
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+
+- name: remove all anonymous user
+  mysql_user:
+    name: ''
+    state: absent
+    host: localhost
+
+- name: create database
+  mysql_db:
+    name: ansible_test
+    state: present
+    encoding: utf8mb4
+
+- name: create user
+  mysql_user:
+    name: ansible 
+    password: ansible 
+    priv: '*.*:ALL,GRANT'
+    state: present
+
+- name: restart mysqld
+  become: yes
+  service:
+    name: mysqld
+    state: restarted
