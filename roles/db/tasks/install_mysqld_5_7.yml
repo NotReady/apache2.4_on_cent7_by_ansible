@@ -25,14 +25,14 @@
   become: yes
   stat:
     path: /root/.my.cnf
-  register: mycnf_file
+  register: root_profile
 
 - name: get temporary password
   become: yes
   shell: |
     cat /var/log/mysqld.log | grep "temporary password" | awk '{print $11}'
   register: mysql_default_password
-  when: not mycnf_file.stat.exists
+  when: not root_profile.stat.exists
 
 - name: deploy init .my.cnf
   become: yes
@@ -42,27 +42,24 @@
     owner: root
     group: root
     mode: 0644
-  when: not mycnf_file.stat.exists
+  when: not root_profile.stat.exists
+
+- name: print tempolary key
+  debug:
+    msg: "{{ mysql_default_password.stdout }}"
 
 - name: change password validation to the easy way
+  become: yes
   shell: |
     mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_length=4;"
     mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
-  when: not mycnf_file.stat.exists
+  when: not root_profile.stat.exists
 
 - name: change root user password
+  become: yes
   shell: |
     mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysqld_5_7.mysql_root_password}}';"
-  when: not mycnf_file.stat.exists
-
-- name: deploy changed .my.cnf
-  become: yes
-  template:
-    src: my.cnf.j2
-    dest: /root/.my.cnf
-    owner: root
-    group: root
-    mode: 0644
+  when: not root_profile.stat.exists
 
 - name: deploy changed.my.cnf
   become: yes
