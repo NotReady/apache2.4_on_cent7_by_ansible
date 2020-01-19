@@ -24,7 +24,8 @@
 - name: check .my.cnf exists
   become: yes
   stat:
-    path: /root/.my.cnf
+#    path: /root/.my.cnf
+    path: /home/ansible/.my.cnf
   register: root_profile
 
 - name: get temporary password
