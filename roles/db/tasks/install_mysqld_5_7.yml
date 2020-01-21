@@ -55,6 +55,7 @@
 - name: print tempolary key
   debug:
     msg: "{{ mysql_default_password.stdout }}"
+  when: not root_profile.stat.exists
 
 - name: change password validation to the easy way
   become: yes
