@@ -1,0 +1,4 @@
+---
+# tasks file for common
+- include_tasks: roles/app/tasks/common.yml
+- include_tasks: roles/app/tasks/ms_securite.yml

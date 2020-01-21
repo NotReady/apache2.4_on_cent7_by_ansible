@@ -1,0 +1,9 @@
+---
+# provisioned ms_securite 
+- name: ms_securiteリポジトリをクローンします 
+- name: シンボリックファイルを作成します
+- name: テンポラリディレクトを作成します
+- name: memcachedプロセスを起動します
+- name: バーチャルホスト設定ファイルを配置します
+- name: バーチャルホストログディレクトリを作成します
+ 
