@@ -19,3 +19,10 @@
   roles:
     - role: db 
       tags: db 
+
+#- name: install and configure the app 
+#  hosts: webservers
+#  remote_user: ansible
+#  roles:
+#    - role: app 
+#      tags: app 
