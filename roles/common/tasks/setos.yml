@@ -3,3 +3,8 @@
   become: yes
   timezone:
     name: Asia/Tokyo 
+
+- name: selinuxを無効化します
+  become: yes
+  selinux:
+    state: disabled
