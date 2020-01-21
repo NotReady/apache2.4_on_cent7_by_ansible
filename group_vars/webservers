@@ -28,6 +28,8 @@ httpd_2_4:
   conf_file: /etc/httpd/conf/httpd.conf
   # confの追加インクルードパス
   extra_conf_path: /etc/httpd/conf/extra
+  # バーチャルホストconfの追加インクルードパス
+  vhosts_conf_path: /etc/httpd/conf/vhosts.d
 
 apr:
   # ソースファイルダウンロードURL
