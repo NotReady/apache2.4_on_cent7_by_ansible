@@ -90,10 +90,11 @@
 
 - name: create user
   mysql_user:
-    name: ansible 
-    password: ansible 
+    name: "{{ item.name }}" 
+    password: "{{ item.password }}"
     priv: '*.*:ALL,GRANT'
     state: present
+  with_items: "{{ mysqld_5_7.valid_users }}"
 
 - name: restart mysqld
   become: yes

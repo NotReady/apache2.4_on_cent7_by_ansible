@@ -126,3 +126,9 @@ mysqld_5_7:
   mysql_admin_password: ansible 
   # ログディレクトリ
   mysql_log_dir: /var/log/mysql
+  # ユーザ
+  valid_users:
+    - name: 'ansible'
+      password: 'ansible'
+    - name: 'msuser'
+      password: 'liberra'
