@@ -1,5 +1,10 @@
 ---
 # build and install php_5.6
+- name: remiレポジトリのインストール
+  become: yes
+  yum:
+   name: "{{ php_5_5.repo_url }}"
+   state: present
 - name: phpのインストール
   become: yes
   yum:

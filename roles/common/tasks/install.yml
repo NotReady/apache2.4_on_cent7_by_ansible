@@ -11,7 +11,6 @@
     state: present 
   with_items:
     - epel-release
-    - "{{ php_5_5.repo_url }}" 
     - "{{ httpd_2_4.repo_url }}"
     - tree
     - yum-utils
