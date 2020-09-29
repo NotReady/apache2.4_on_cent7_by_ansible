@@ -110,25 +110,3 @@ php_5_5:
       line: '\1 = pass'
     - regexp: "^;(mbstring.encoding_translation) =.*"
       line: '\1 = off'
-
-mysqld_5_7:
-  # mysqld提供元のレポジトリURL
-  repo_url: http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm 
-  # 利用レポジトリ
-  enable_repo: mysql57-community 
-  # パッケージ名
-  install_package:
-    - MySQL-python
-    - mysql-community-server
-  # rootパスワード
-  mysql_root_password: ansible 
-  # adminパスワード
-  mysql_admin_password: ansible 
-  # ログディレクトリ
-  mysql_log_dir: /var/log/mysql
-  # ユーザ
-  valid_users:
-    - name: 'ansible'
-      password: 'ansible'
-    - name: 'msuser'
-      password: 'liberra'
