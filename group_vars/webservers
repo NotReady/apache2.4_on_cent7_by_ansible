@@ -30,39 +30,3 @@ httpd_2_4:
   extra_conf_path: /etc/httpd/conf/extra
   # バーチャルホストconfの追加インクルードパス
   vhosts_conf_path: /etc/httpd/conf/vhosts.d
-
-apr:
-  # ソースファイルダウンロードURL
-  url: http://archive.apache.org/dist/apr/apr-1.5.2.tar.bz2
-  # ソースファイル名
-  src_filename: apr-1.5.2.tar.bz2
-  # RPMファイル名
-  rpm_filenames:
-    - apr-1.5.2-1.x86_64.rpm
-    - apr-devel-1.5.2-1.x86_64.rpm
-  # RPMファイル配置ディレクトリ
-  rpm_directory: /usr/local/src/apr
-
-apr_util:
-  # ソース・ファイルダウンロードURL
-  url: http://archive.apache.org/dist/apr/apr-util-1.5.2.tar.bz2
-  # ソースファイル名
-  src_filename: apr-util-1.5.2.tar.bz2
-  # RPMファイル名
-  rpm_filenames:
-    - apr-util-1.5.2-1.x86_64.rpm
-    - apr-util-devel-1.5.2-1.x86_64.rpm
-  # RPMファイル配置ディレクトリ
-  rpm_directory: /usr/local/src/apr-util
-
-distcache:
-  # ソースファイルダウンロードURL
-  url: https://archive.fedoraproject.org/pub/archive/fedora/linux/releases/18/Everything/source/SRPMS/d/distcache-1.4.5-23.src.rpm
-  # ソースファイル名
-  src_filename: distcache-1.4.5-23.src.rpm
-  # RPMファイル名
-  rpm_filenames:
-    - distcache-1.4.5-23.x86_64.rpm
-    - distcache-devel-1.4.5-23.x86_64.rpm
-  # RPMファイル配置ディレクトリ
-  rpm_directory: /usr/local/src/distcache
