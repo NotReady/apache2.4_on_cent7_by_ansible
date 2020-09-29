@@ -1,5 +1,10 @@
 ---
 # install httpd_2.4
+- name: iusレポジトリをインストールします
+  become: yes
+  yum:
+    name: "{{ httpd_2_4.repo_url }}"
+    state: present
 - name: httpdをインストールをインストールします
   become: yes
   yum:
