@@ -7,7 +7,7 @@ httpd_2_4:
   # 起動グループ
   group_name: apache
   # インストールリポジトリ
-  repo_url: https://centos7.iuscommunity.org/ius-release.rpm 
+  repo_url: https://repo.ius.io/ius-release-el7.rpm 
   # ソースファイル作業ディレクトリ
   work_dir: /usr/local/src
   # RPMファイルビルド先ディレクトリ
