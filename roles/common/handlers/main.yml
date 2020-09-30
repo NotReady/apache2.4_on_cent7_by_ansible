@@ -1,2 +1,11 @@
 ---
-# handlers file for common
+- name: memcachedを起動します 
+  become: yes
+  systemd:
+    name: memcached_{{ item }}.service  
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  with_items:
+    - "{{ memcached_listen_ports }}"
+  listen: changed_memcached  

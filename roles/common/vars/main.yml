@@ -1,9 +1,11 @@
 ---
-# vars file for common
-rpmbuild:
-  install_modules:
-    - rpmdevtools
-    - yum-utils
-    - autoconf
-    - libtool
-    - doxygen
+# memcachedのlistenポート
+memcached_listen_ports:
+  - "11213"
+  - "11214"
+  - "11215"
+
+# memcachedユニットのconfigファイル
+memcached_systemd_files:
+  - { src: memcached.j2, dest: /etc/sysconfig/memcached_<listen_port> }
+  - { src: memcached.service.j2, dest: /usr/lib/systemd/system/memcached_<listen_port>.service }
