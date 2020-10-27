@@ -1,6 +1,6 @@
 ---
 # provisioned ms_securite 
-- name: 共有ディレクトリを作成します 
-- name: hostsファイルを編集します 
-- name: cronを起動します 
-- name: cron設を配置します
+#- name: 共有ディレクトリを作成します 
+#- name: hostsファイルを編集します 
+#- name: cronを起動します 
+#- name: cron設を配置します

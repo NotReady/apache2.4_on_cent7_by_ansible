@@ -1,0 +1,23 @@
+---
+# provisioned ms_securite 
+# - name: ms_securiteリポジトリをクローンします 
+# - name: シンボリックファイルを作成します
+# - name: テンポラリディレクトを作成します
+# - name: memcachedプロセスを起動します
+- name: バーチャルホスト設定ファイルを配置します
+  become: yes
+  copy:
+    src: dev.example.local.conf
+    dest: /etc/httpd/conf.d/dev.example.local.conf
+    owner: root
+    group: root
+    mode: 0664
+
+- name: バーチャルホストログディレクトリを作成します
+  become: yes
+  file:
+    path: /etc/httpd/logs/dev.example.local 
+    state: directory
+    owner: root
+    group: root
+    mode: 0775 
