@@ -5,7 +5,8 @@
   yum:
     name: "{{ httpd_2_4.repo_url }}"
     state: present
-- name: httpdをインストールをインストールします
+
+- name: httpdをインストールします
   become: yes
   yum:
     name: "{{ item }}"
@@ -14,24 +15,6 @@
     enablerepo: "ius,epel,base" 
   with_items:
     - httpd24u 
-
-- name: extra-confのインクルードディレクトリを作成します
-  become: yes
-  file:
-    path: "{{ httpd_2_4.extra_conf_path }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-
-- name: virtualhost-confのインクルードディレクトリを作成します
-  become: yes
-  file:
-    path: "{{ httpd_2_4.vhosts_conf_path }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
 
 - name: httpdの起動ユーザ・グループ設定します
   become: true

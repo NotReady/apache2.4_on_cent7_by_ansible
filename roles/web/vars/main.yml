@@ -9,10 +9,6 @@ httpd_2_4:
   repo_url: https://repo.ius.io/ius-release-el7.rpm
   # 設定ファイルパス
   conf_file: /etc/httpd/conf/httpd.conf
-  # confの追加インクルードパス
-  extra_conf_path: /etc/httpd/conf/extra
-  # バーチャルホストconfの追加インクルードパス
-  vhosts_conf_path: /etc/httpd/conf/vhosts.d
 
 php_5_5:
   # php提供元レポジトリURL
@@ -24,7 +20,6 @@ php_5_5:
     - php
     - php-cli
     - php-common
- #   - php-dbg
     - php-devel
     - php-gd
     - php-mbstring
@@ -34,26 +29,36 @@ php_5_5:
     - php-xml
     - php-phalcon2
     - php-pecl-memcache
-
-  # httpd用php設定ファイル(原本)
-  httpd_config_org_path: /etc/httpd/conf.d/php.conf
-  # httpd用php設定ファイル
-  httpd_config_path: /etc/httpd/conf/extra/httpd-php.conf
-  # httpd用php追加読み込み文言
-  httpd_config_include_php: "Include conf/extra/httpd-php.conf"
-  # php設定ファイル
-  config_path: /etc/php.ini
+    - php-pecl-xdebug 
   # php設定ファイル変更箇所
   config_changes:
     - regexp: "^;(date.timezone) =.*"
       line: '\1 = Asia/Tokyo'
+      file: "/etc/php.ini"
     - regexp: "^;(mbstring.language) =.*"
       line: '\1 = Japanese'
+      file: "/etc/php.ini"
     - regexp: "^;(mbstring.internal_encoding) =.*"
       line: '\1 = UTF-8'
+      file: "/etc/php.ini"
     - regexp: "^;(mbstring.http_input) =.*"
       line: '\1 = pass'
+      file: "/etc/php.ini"
     - regexp: "^;(mbstring.http_output) =.*"
       line: '\1 = pass'
+      file: "/etc/php.ini"
     - regexp: "^;(mbstring.encoding_translation) =.*"
       line: '\1 = off'
+      file: "/etc/php.ini"
+    - regexp: "^;(xdebug.remote_autostart) =.*"
+      line: '\1 = 1'
+      file: "/etc/php.d/xdebug.ini"
+    - regexp: "^;(xdebug.remote_enable) =.*"
+      line: '\1 = 1'
+      file: "/etc/php.d/xdebug.ini"
+    - regexp: "^;(xdebug.remote_host) =.*"
+      line: '\1 = "localhost"'
+      file: "/etc/php.d/xdebug.ini"
+    - regexp: "^;(xdebug.remote_port) =.*"
+      line: '\1 = 9001'
+      file: "/etc/php.d/xdebug.ini"
