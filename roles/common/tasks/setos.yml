@@ -8,3 +8,10 @@
   become: yes
   selinux:
     state: disabled
+
+- name: hostsを設定します 
+  become: yes
+  lineinfile:
+    dest: "/etc/hosts"
+    line: "{{ item }}"
+  with_items: "{{ hosts_config }}"

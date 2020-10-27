@@ -9,3 +9,8 @@ memcached_listen_ports:
 memcached_systemd_files:
   - { src: memcached.j2, dest: /etc/sysconfig/memcached_<listen_port> }
   - { src: memcached.service.j2, dest: /usr/lib/systemd/system/memcached_<listen_port>.service }
+
+# hostsの設定
+hosts_config:
+  - "msdb1	127.0.0.1"
+  - "msdb2	127.0.0.1"
