@@ -96,11 +96,24 @@
     state: present
   with_items: "{{ mysqld_5_7.valid_users }}"
 
+- name: check if exists ms2
+  shell: mysql -e 'SHOW DATABASES;' | grep ms2
+  register: if_exists_ms2
+  ignore_errors: yes 
+
 - name: import database
   mysql_db:
     state: import
     name: ms2
     target: /var/www/data/data_source/ms2.sql 
+  when: if_exists_ms2.rc != 0
+
+- name: setting sql mode
+  become: yes
+  lineinfile:
+    dest: /etc/my.cnf
+    regexp: ^#sql_mode.*$
+    line: sql_mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION 
 
 - name: restart mysqld
   become: yes
