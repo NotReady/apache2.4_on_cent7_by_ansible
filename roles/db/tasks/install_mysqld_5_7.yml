@@ -96,6 +96,12 @@
     state: present
   with_items: "{{ mysqld_5_7.valid_users }}"
 
+- name: import database
+  mysql_db:
+    state: import
+    name: ms2
+    target: /var/www/data/data_source/ms2.sql 
+
 - name: restart mysqld
   become: yes
   service:
