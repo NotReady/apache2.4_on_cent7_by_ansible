@@ -2,8 +2,10 @@
 - name: ms_securiteリポジトリをクローンします 
   become: yes
   git:
-    repo: "https://{{ user_name }}:{{ password }}@github.com/ms-securite/ms_securite.git"
+    repo: git@github.com:ms-securite/ms_securite.git
     dest: "/var/www/_dev.example.local"
+    key_file: /home/ansible/.ssh/github
+    accept_hostkey: yes
     update: no
 
 - name: クローンディレクトリの権限を設定します

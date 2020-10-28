@@ -1,6 +1,16 @@
 ---
-# provisioned ms_securite 
-#- name: 共有ディレクトリを作成します 
-#- name: hostsファイルを編集します 
+# provisioned 
+- name: ssh鍵ファイルを設置します
+  become: yes
+  copy:
+    src: "{{ item.src }}" 
+    dest: "{{ item.dest }}" 
+    owner: ansible
+    group: ansible
+    mode: 0600
+  with_items:
+    - { src: /tmp/provision/id_rsa, dest: /home/ansible/.ssh/github }
+    - { src: /tmp/provision/config, dest: /home/ansible/.ssh/config }
+
 #- name: cronを起動します 
 #- name: cron設を配置します
