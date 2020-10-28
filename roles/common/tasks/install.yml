@@ -17,23 +17,3 @@
 - name: 追加レポジトリをデフォルト無効にします 
   become: yes
   shell: "yum-config-manager --disable ius epel remi-safe"
-
-- name: memcachedをインストールします
-  become: yes
-  yum:
-    name: memcached
-    state: present
-
-- name: memcachedユニットを登録します
-  become: yes
-  template:
-    src: "{{ item.1.src | regex_replace('<listen_port>', item.0) }}" 
-    dest: "{{ item.1.dest | regex_replace('<listen_port>', item.0) }}"
-    owner: root
-    group: root
-    mode: 0644
-  with_nested:
-    - "{{ memcached_listen_ports }}"
-    - "{{ memcached_systemd_files  }}"
-  notify:
-    -  changed_memcached 

@@ -8,12 +8,3 @@
   become: yes
   selinux:
     state: disabled
-
-- name: hostsを設定します 
-  become: yes
-  lineinfile:
-    dest: "/etc/hosts"
-    backrefs: yes
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items: "{{ hosts_config }}"

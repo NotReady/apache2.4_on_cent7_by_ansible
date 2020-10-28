@@ -1,4 +1,25 @@
 ---
+
+- name: memcachedユニットを登録します
+  become: yes
+  template:
+    src: "{{ item.1.src | regex_replace('<listen_port>', item.0 ) }}"
+    dest: "{{ item.1.dest | regex_replace('<listen_port>', item.0 ) }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_nested:
+    - ["11214"]
+    - "{{ memcached_systemd_files  }}"
+
+- name: memcachedを起動します
+  become: yes
+  systemd:
+    name: memcached_11214.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
 - name: ms_securiteリポジトリをクローンします 
   become: yes
   git:
