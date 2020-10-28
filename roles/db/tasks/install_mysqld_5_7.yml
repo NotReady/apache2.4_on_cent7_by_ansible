@@ -105,7 +105,7 @@
   mysql_db:
     state: import
     name: ms2
-    target: /var/www/data/data_source/ms2.sql 
+    target: /tmp/provision/ms2.sql 
   when: if_exists_ms2.rc != 0
 
 - name: setting sql mode
