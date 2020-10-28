@@ -1,23 +1,86 @@
 ---
-# provisioned ms_securite 
-# - name: ms_securiteリポジトリをクローンします 
-# - name: シンボリックファイルを作成します
-# - name: テンポラリディレクトを作成します
-# - name: memcachedプロセスを起動します
+- name: ms_securiteリポジトリをクローンします 
+  become: yes
+  git:
+    repo: "https://{{ user_name }}:{{ password }}@github.com/ms-securite/ms_securite.git"
+    dest: "/var/www/_dev.example.local"
+    update: no
+
+- name: クローンディレクトリの権限を設定します
+  become: yes
+  file:
+    dest: /var/www/_dev.example.local
+    owner: root
+    group: apache 
+    mode: 0775
+    recurse: yes
+
+- name: appに必要なディレクトリを作成します
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: apache
+    mode: 0775
+  with_items:
+    - /var/www/_dev.example.local/trunk/src/log
+    - /var/www/_dev.example.local/trunk/src/app/cache
+    - /var/www/_dev.example.local/trunk/src/mscache
+    - /var/www/_dev.example.local/trunk/src/mscache/example
+    - /var/www/_dev.example.local/trunk/src/mscache/fund
+    - /var/www/_dev.example.local/trunk/src/mscache/store
+
+- name: シンボリックファイルを作成します
+  become: yes
+  file:
+    src: "/var/www/_dev.example.local/trunk/src"
+    dest: "/var/www/dev.example.local"
+    state: link
+    owner: root
+    group: apache
+    mode: 0775
+
 - name: バーチャルホスト設定ファイルを配置します
   become: yes
   copy:
-    src: dev.example.local.conf
+    src: example.local/dev.example.local.conf
     dest: /etc/httpd/conf.d/dev.example.local.conf
     owner: root
     group: root
     mode: 0664
+  notify: updated_httpd_config 
 
 - name: バーチャルホストログディレクトリを作成します
   become: yes
   file:
-    path: /etc/httpd/logs/dev.example.local 
+    path: "{{ item }}" 
     state: directory
     owner: root
     group: root
     mode: 0775 
+  with_items:
+    - /etc/httpd/logs/dev.example.local:80
+    - /etc/httpd/logs/dev.example.local:443
+
+- name: 証明書の配置ディレクトリを作成します
+  become: yes
+  file:
+    path: /etc/httpd/cert/example.local
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+    
+- name: サーバー証明書を配置します
+  become: yes
+  copy:
+    src: "example.local/{{ item }}"
+    dest: "/etc/httpd/cert/example.local/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - example.local.crt
+    - example.local.key
+  notify: updated_httpd_config 
