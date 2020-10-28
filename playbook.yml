@@ -23,13 +23,6 @@
 - name: install and configure the app 
   hosts: webservers
   remote_user: ansible
-  vars_prompt:
-    - name: "user_name"
-      prompt: "Please Enter Your GitHub ID"
-      private: no
-    - name: "password"
-      prompt: "Please Enter Your GitHub Password"
-      private: yes 
   roles:
     - role: app 
       tags: app 
