@@ -12,5 +12,11 @@ memcached_systemd_files:
 
 # hostsの設定
 hosts_config:
-  - "msdb1	127.0.0.1"
-  - "msdb2	127.0.0.1"
+  - regexp: "(^127.0.0.1(?!.*msdb1).*$)"
+    line: '\1 msdb1'
+  - regexp: "(^127.0.0.1(?!.*msdb2).*$)"
+    line: '\1 msdb2'
+  - regexp: "(^::1(?!.*msdb1).*$)"
+    line: '\1 msdb1'
+  - regexp: "(^::1(?!.*msdb2).*$)"
+    line: '\1 msdb2'

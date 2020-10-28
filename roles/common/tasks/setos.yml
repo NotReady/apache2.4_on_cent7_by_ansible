@@ -13,5 +13,7 @@
   become: yes
   lineinfile:
     dest: "/etc/hosts"
-    line: "{{ item }}"
+    backrefs: yes
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
   with_items: "{{ hosts_config }}"
