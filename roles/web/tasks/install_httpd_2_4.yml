@@ -15,6 +15,18 @@
     enablerepo: "ius,epel,base" 
   with_items:
     - httpd24u 
+    - httpd24u-mod_ssl 
+
+- name: ディレクトを作成します
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - /etc/httpd/cert
 
 - name: httpdの起動ユーザ・グループ設定します
   become: true
