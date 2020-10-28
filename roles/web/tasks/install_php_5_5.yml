@@ -24,9 +24,3 @@
     line: "{{ item.line }}"
   with_items: "{{ php_5_5.config_changes }}"
   notify: restart httpd
-
-- name: php用sampleファイル配置
-  become: yes
-  shell: "echo '<?php phpinfo(); ?>' > /var/www/html/info.php"
-  args:
-    creates: "/var/www/html/info.php" 
