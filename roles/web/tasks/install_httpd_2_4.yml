@@ -28,7 +28,7 @@
   with_items:
     - /etc/httpd/cert
 
-- name: httpdの起動ユーザ・グループ設定します
+- name: httpd.confを最適化します
   become: true
   lineinfile:
     dest: "{{ httpd_2_4.conf_file }}"
@@ -40,7 +40,21 @@
       line: "User {{ httpd_2_4.user_name }}"
     - regexp: "^Group.*"
       line: "Group {{ httpd_2_4.group_name }}"
+    - regexp: "^#ServerName.*$"
+      line: "ServerName dev.example.local:80"
+    - regexp: "^(DocumentRoot.*)$"
+      line: "#\1"
   notify: restart httpd
+
+- name: apacheグループにユーザを追加します
+  become: yes
+  user:
+    name: "{{ item }}"
+    groups: apache
+    append: yes
+  with_items:
+    - vagrant
+    - ansible
 
 - name: httpdのサービス起動と自動起動を設定します
   become: yes
