@@ -25,7 +25,7 @@
   git:
     repo: git@github.com:ms-securite/ms_securite.git
     dest: "/var/www/_dev.example.local"
-    key_file: /home/ansible/.ssh/github
+    key_file: /home/ansible/.ssh/github_ms_rsa
     accept_hostkey: yes
     update: no
 
