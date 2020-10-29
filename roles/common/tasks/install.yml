@@ -1,9 +1,4 @@
 ---
-- name: timezoneを設定します
-  become: yes
-  timezone:
-    name: Asia/Tokyo
-
 - name: YUMレポジトリをインストールします 
   become: yes
   yum:
