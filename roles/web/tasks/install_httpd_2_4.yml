@@ -43,7 +43,7 @@
     - regexp: "^#ServerName.*$"
       line: "ServerName dev.example.local:80"
     - regexp: "^(DocumentRoot.*)$"
-      line: "#\1"
+      line: '#\1'
   notify: restart httpd
 
 - name: apacheグループにユーザを追加します
